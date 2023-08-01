@@ -41,8 +41,6 @@ output = serve(input_data)
 inf_time =  time.time() - start_time 
 print(f"time: {inf_time}s" )
 
-with open("imagenet_labels.txt", 'r') as f:
-    labels = [line.strip() for line in f.readlines()]
 top_3 = np.argsort(output.numpy().squeeze())[-3:][::-1]
 url = tf.keras.utils.get_file(
     'ImageNetLabels.txt',

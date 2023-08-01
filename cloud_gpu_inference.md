@@ -307,7 +307,7 @@ These are all contained in the `image_model` directory. We can upload them to th
 
 ::: {.cell .code}
 ``` python
-!scp -r image_model cc@{public_ip}:~/
+!scp -r -i ~/work/.ssh/id_rsa -o StrictHostKeyChecking=no image_model cc@{public_ip}:~/
 ```
 :::
 
@@ -318,36 +318,7 @@ These are all contained in the `image_model` directory. We can upload them to th
 Now, we can use the materials we uploaded to the server, and do inference - make a prediction - *on* the server. 
 
 
-In this example, we will use a machine learning model that is specifically designed for fast inference using GPU acceleration.
-
-:::
-
-::: {.cell .markdown}
-
-First, we need to install a couple of Python libraries on the server, including:
-
-* CUDA, a framework for fast machine learning operations on GPU.
-* `tensorflow` is a library for machine learning, and is capable of fast operation using GPU acceleration when a GPU is available. We'll also get the `tensorflow-hub` library which enables us to retrieve pre-trained models shared by others at the [Tensorflow Hub](https://tfhub.dev/).
-* `Pillow` is used for image processing.
-
-Run the following inside an SSH session on the server:
-
-:::
-
-
-::: {.cell .markdown}
-```python
-from chi import ssh
-
-node = ssh.Remote(public_ip)
-node.run('sudo apt update; sudo apt -y install cuda-11-8 libcudnn8=8.6.0.163-1+cuda11.8)
-node.run('pip install nvidia-cudnn-cu11 tensorflow tensorflow-hub Pillow')
-```
-:::
-
-::: {.cell .markdown}
-
-Then, we can execute the machine learning model! We will ask it to make a prediction for the following image:
+In this example, we will use a machine learning model that is specifically designed for fast inference using GPU acceleration. We will ask it to make a prediction for the following image:
 
 :::
 
