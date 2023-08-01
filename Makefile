@@ -1,4 +1,4 @@
-SOURCES := $(wildcard *.md)
+SOURCES := cloud_gpu_inference.md
 NBS := $(SOURCES:.md=.ipynb)
 
 %.ipynb: %.md
