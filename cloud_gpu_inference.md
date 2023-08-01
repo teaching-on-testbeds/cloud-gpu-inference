@@ -128,7 +128,7 @@ Then, we can create the server!
 ``` python
 server.create_server(
     server_name, 
-    reservation_id=lease_id,
+    reservation_id=lease.get_node_reservation(lease_id),
     image_name=chi.get("image")
 )
 server_id = server.get_server_id(server_name)
