@@ -199,7 +199,7 @@ print("ssh cc@%s" % public_ip)
 ```python
 from chi import ssh
 
-node = ssh.Remote(reserved_fip)
+node = ssh.Remote(public_ip)
 ```
 :::
 
@@ -231,8 +231,8 @@ try:
     node.run('sudo reboot') # reboot and wait for it to come up
 except:
     pass
-server.wait_for_tcp(reserved_fip, port=22)
-node = ssh.Remote(reserved_fip) 
+server.wait_for_tcp(public_ip, port=22)
+node = ssh.Remote(public_ip) 
 ```
 :::
 
@@ -259,8 +259,8 @@ try:
     node.run('sudo reboot')
 except:
     pass
-server.wait_for_tcp(reserved_fip, port=22)
-node = ssh.Remote(reserved_fip) # note: need a new SSH session to get new PATH
+server.wait_for_tcp(public_ip, port=22)
+node = ssh.Remote(public_ip) # note: need a new SSH session to get new PATH
 node.run('nvidia-smi')
 node.run('nvcc --version')
 ```
