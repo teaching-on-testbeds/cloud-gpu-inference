@@ -47,3 +47,6 @@ imagenet_labels = np.array(open(url).read().splitlines())[1:]
 
 for i in top_3:
     print('{:.6f}'.format(output["predictions"].numpy()[0, i]), ':',  imagenet_labels[i])
+
+
+del loaded_model
