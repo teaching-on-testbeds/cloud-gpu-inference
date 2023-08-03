@@ -291,6 +291,28 @@ node.run('python3 -c \'import tensorflow as tf; print(tf.config.list_physical_de
 
 
 ::: {.cell .markdown}
+## Install additional libraries for fast inference on GPU
+
+To squeeze all the inference speed we can out of our GPU, we'll also install TensorRT, a framework that optimizes inference speed on NVIDIA's GPUs.
+
+:::
+
+::: {.cell .code}
+```python
+# hold libcudnn8 so we won't try to upgrade it to an incompatible version
+node.run('sudo apt-mark hold libcudnn8')
+# specify python-cuda to match installed cuda version
+node.run('python3 -m pip install --user cuda-python==11.8.0')
+# specify versions for ALL the tensorrt components
+node.run('sudo apt -y install tensorrt-dev=8.6.0.12-1+cuda11.8 libnvinfer-dev=8.6.0.12-1+cuda11.8 libnvinfer-lean-dev=8.6.0.12-1+cuda11.8 libnvinfer-headers-dev=8.6.0.12-1+cuda11.8 libnvinfer8=8.6.0.12-1+cuda11.8 libnvinfer-lean8=8.6.0.12-1+cuda11.8 libnvinfer-dispatch-dev=8.6.0.12-1+cuda11.8 libnvinfer-plugin-dev=8.6.0.12-1+cuda11.8 libnvinfer-vc-plugin-dev=8.6.0.12-1+cuda11.8 libnvparsers-dev=8.6.0.12-1+cuda11.8 libnvonnxparsers-dev=8.6.0.12-1+cuda11.8 libnvparsers8=8.6.0.12-1+cuda11.8 libnvinfer-vc-plugin8=8.6.0.12-1+cuda11.8 libnvinfer-dispatch8=8.6.0.12-1+cuda11.8 libnvinfer-headers-plugin-dev=8.6.0.12-1+cuda11.8 libnvinfer-plugin8=8.6.0.12-1+cuda11.8 libnvonnxparsers8=8.6.0.12-1+cuda11.8 libcudnn8-dev=8.9.3.28-1+cuda11.8')
+node.run('sudo apt -y install python3-libnvinfer-dev=8.6.0.12-1+cuda11.8 python3-libnvinfer=8.6.0.12-1+cuda11.8 python3-libnvinfer-lean=8.6.0.12-1+cuda11.8 python3-libnvinfer-dispatch=8.6.0.12-1+cuda11.8')
+# need to update tensorflow to one that is linked against tensorrt8
+node.run('python3 -m pip install --user tensorflow==2.12.0')
+```
+:::
+
+
+::: {.cell .markdown}
 ## Transfering files to the server
 
 Later in this notebook, we'll run an image classification model - a model that accepts an image as input and "predicts" the name of the object in the image - on the server. To do this, we'll need to upload some files to the server:
@@ -341,6 +363,45 @@ node.run('python /home/cc/image_model/model.py')
 Make a note of the time it took to generate the prediction - would this inference time be acceptable for all applications? Also make a note of the model's three best "guesses" regarding the label of the image - is the prediction accurate?
 
 :::
+
+::: {.cell .markdown}
+## Use a pre-trained image classification model to do inference with optimizations
+
+Now we willl repeat the image classification above, but with a version of the model that is compiled with TensorRT, for extra optimizations on NVIDIA GPUs.
+
+:::
+
+
+::: {.cell .markdown}
+First, we'll convert the same model to a TensorRT equivalent - this will take a while.
+:::
+
+
+::: {.cell .code}
+```python
+node.run('python /home/cc/image_model/model-convert.py')
+```
+:::
+
+
+::: {.cell .markdown}
+Then, we can run the optimized version of the model - 
+:::
+
+::: {.cell .code}
+```python
+node.run('python /home/cc/image_model/model-opt.py')
+```
+:::
+
+
+
+::: {.cell .markdown}
+
+Make a note of the time it took to generate the prediction - how does this compare to the previous one?
+
+:::
+
 
 ::: {.cell .markdown}
 ## Delete the server
