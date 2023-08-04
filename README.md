@@ -7,6 +7,6 @@ cd ~/work
 git clone https://github.com/teaching-on-testbeds/cloud-gpu-inference
 ```
 
-Then, open the notebook inside the `edge-cpu-inference` directory and follow along with the instructions there.
+Then, open the notebook inside the `cloud-gpu-inference` directory and follow along with the instructions there.
 
 > Note: This experiment assumes that you already have a lease for an RTX6000 GPU server on CHI@UC!
