@@ -5,13 +5,14 @@ import tensorrt
 assert tensorrt.Builder(tensorrt.Logger())
 from tensorflow.python.compiler.tensorrt import trt_convert as trt
 from keras.models import load_model
+import argparse
 
 # Navigate to correct position in filesystem
 script_directory = os.path.dirname(os.path.abspath(sys.argv[0]))
 os.chdir(script_directory)
 
 # Set up the model
-def model_convert(model_path)
+def model_convert(model_path):
   INPUT_IMG_SIZE = 224
   INPUT_IMG_SHAPE = (224, 224, 3)
 
