@@ -39,7 +39,7 @@ def model_convert(model_path)
   
   converter.build(input_fn=input_fn)
        
-  OUTPUT_SAVED_MODEL_DIR="./optimized_models"
+  OUTPUT_SAVED_MODEL_DIR=f"./optimized_models_{model_path}"
   converter.save(output_saved_model_dir=OUTPUT_SAVED_MODEL_DIR)
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="To parse model name")
