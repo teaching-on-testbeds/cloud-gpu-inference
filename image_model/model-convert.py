@@ -22,7 +22,7 @@ def model_convert(model_path)
   else:
     model =load_model(model_path)
   
-  SAVED_MODEL_DIR="./original_models"
+  SAVED_MODEL_DIR= f"./original_models_{model_path}"
   model.save(SAVED_MODEL_DIR)
   
   converter = trt.TrtGraphConverterV2(
