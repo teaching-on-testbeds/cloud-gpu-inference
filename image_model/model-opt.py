@@ -15,10 +15,10 @@ os.chdir(script_directory)
 def predict(model_path, label_file, image):
     INPUT_IMG_SIZE = 224
     INPUT_IMG_SHAPE = (224, 224, 3)
-    OUTPUT_SAVED_MODEL_DIR = f'./optimized_models_{model_path}'
+    OUTPUT_SAVED_MODEL_DIR = f'./optimized_models_{model_path[:-3]}'
     loaded_model = tf.saved_model.load(OUTPUT_SAVED_MODEL_DIR)
     infer = loaded_model.signatures['serving_default']
-    
+    print(type(infer))
     
     # Prepare and pass the input image
     image_path = image  
@@ -40,9 +40,9 @@ def predict(model_path, label_file, image):
     # Get and print the result
     inf_time =  time.time() - start_time 
     print(f"time: {inf_time}s" )
-    
-    top_3 = np.argsort(output["predictions"].numpy().squeeze())[-3:][::-1]
-    if label_file == "mobilenet" :
+    predictions = next(iter(output))
+    top_3 = np.argsort(output[predictions].numpy().squeeze())[-3:][::-1]
+    if label_file == "mobilenet.txt" :
     
         url = tf.keras.utils.get_file(
             'ImageNetLabels.txt',
@@ -50,19 +50,19 @@ def predict(model_path, label_file, image):
         imagenet_labels = np.array(open(url).read().splitlines())[1:]
     else:
         with open(label_file, 'r') as f:
-            imagenet_labels = [line.strip() for line in f.readlines()]
+            imagenet_labels = [" ".join(line.split()[1:]) for line in f.readlines()]
 
     
     for i in top_3:
-        print('{:.6f}'.format(output["predictions"].numpy()[0, i]), ':',  imagenet_labels[i])
+        print('{:.6f}'.format(output[predictions].numpy()[0, i]), ':',  imagenet_labels[i])
     
     
     del loaded_model
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="To parse model name, labelfile and image")
-    parser.add_argument("--model_name",dest="model_name", type=str, default="mobilenet", help="Name of model file.")
-    parser.add_argument("--labelfile_name", dest="labelfile_name",type=str, default="mobilenet", help="Name of label file.")
+    parser.add_argument("--model_name",dest="model_name", type=str, default="mobilenet.h5", help="Name of model file.")
+    parser.add_argument("--labelfile_name", dest="labelfile_name",type=str, default="mobilenet.txt", help="Name of label file.")
     parser.add_argument("--image_name",dest="image_name", type=str, default="parrot.jpg", help="Name of image file.")
 
     

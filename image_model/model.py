@@ -56,7 +56,7 @@ def predict(model_path, label_file, image):
         imagenet_labels = np.array(open(url).read().splitlines())[1:]
   else:
         with open(label_file, 'r') as f:
-            imagenet_labels = [line.strip() for line in f.readlines()]
+            imagenet_labels = [" ".join(line.split()[1:]) for line in f.readlines()]
 
   for i in top_3:
       print('{:.6f}'.format(output.numpy()[0, i]), ':',  imagenet_labels[i])

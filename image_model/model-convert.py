@@ -23,7 +23,7 @@ def model_convert(model_path):
   else:
     model =load_model(model_path)
   
-  SAVED_MODEL_DIR= f"./original_models_{model_path}"
+  SAVED_MODEL_DIR= f"./original_models_{model_path[:-3]}"
   model.save(SAVED_MODEL_DIR)
   
   converter = trt.TrtGraphConverterV2(
@@ -31,7 +31,7 @@ def model_convert(model_path):
      precision_mode=trt.TrtPrecisionMode.FP16
   )
   
-  trt_func = converter.convert()
+  converter.convert()
   converter.summary()
   
   data_float32 = np.zeros((1, INPUT_IMG_SIZE, INPUT_IMG_SIZE, 3), dtype=np.float32)
@@ -40,11 +40,11 @@ def model_convert(model_path):
   
   converter.build(input_fn=input_fn)
        
-  OUTPUT_SAVED_MODEL_DIR=f"./optimized_models_{model_path}"
+  OUTPUT_SAVED_MODEL_DIR=f"./optimized_models_{model_path[:-3]}"
   converter.save(output_saved_model_dir=OUTPUT_SAVED_MODEL_DIR)
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="To parse model name")
-    parser.add_argument("model_name", type=str, default="mobilenet", help="Name of model file.")
+    parser.add_argument("--model_name",dest="model_name", type=str, default="mobilenet", help="Name of model file.")
 
     
     args = parser.parse_args()
