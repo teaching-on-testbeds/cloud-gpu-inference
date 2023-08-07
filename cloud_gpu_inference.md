@@ -320,9 +320,10 @@ Later in this notebook, we'll run an image classification model - a model that a
 * a sample image
 * Python code to load a model and make a prediction on the image
 
-These are all contained in the `image_model` directory. We can upload them to the server using `scp`, and specify the source directory (in the Jupyter environment) and destination directory (on the server).
+Apart from the above, If you prefer, you can upload your own model and label file to the image_model folder if not by default a pre-trained image classification model mobilenetv2 will be used.
 
-(The Python code will directly download a pre-trained model and the associated list of labels when we run it.)
+These are all contained in the `image_model` directory. If you prefer, you can upload your own model and label file to the image_model folder, This is optional if no model and label file are provided the Python code will directly download a pre-trained model and the associated list of labels when we run it.  
+Next, We can upload all the above files to the server using `scp`, and specify the source directory (in the Jupyter environment) and destination directory (on the server).
 
 
 :::
@@ -354,7 +355,7 @@ Image('image_model/parrot.jpg')
 
 ::: {.cell .code}
 ```python
-node.run('python /home/cc/image_model/model.py')
+node.run('python /home/cc/image_model/model.py --model_name keras_model.h5 --labelfile_name labels.txt --image_name parrot.jpg')
 ```
 :::
 
@@ -379,7 +380,7 @@ First, we'll convert the same model to a TensorRT equivalent - this will take a 
 
 ::: {.cell .code}
 ```python
-node.run('python /home/cc/image_model/model-convert.py')
+node.run('python /home/cc/image_model/model-convert.py --model_name keras_model.h5')
 ```
 :::
 
@@ -390,7 +391,7 @@ Then, we can run the optimized version of the model -
 
 ::: {.cell .code}
 ```python
-node.run('python /home/cc/image_model/model-opt.py')
+node.run('python /home/cc/image_model/model-opt.py --model_name keras_model.h5 --labelfile_name labels.txt --image_name parrot.jpg')
 ```
 :::
 
