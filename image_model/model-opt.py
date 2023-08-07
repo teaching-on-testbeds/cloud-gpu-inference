@@ -18,7 +18,6 @@ def predict(model_path, label_file, image):
     OUTPUT_SAVED_MODEL_DIR = f'./optimized_models_{model_path[:-3]}'
     loaded_model = tf.saved_model.load(OUTPUT_SAVED_MODEL_DIR)
     infer = loaded_model.signatures['serving_default']
-    print(type(infer))
     
     # Prepare and pass the input image
     image_path = image  
