@@ -60,7 +60,7 @@ def predict(model_path, label_file, image):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="To parse model name, labelfile and image")
-    parser.add_argument("--model_name",dest="model_name", type=str, default="mobilenet.h5", help="Name of model file.")
+    parser.add_argument("--model_name",dest="model_name", type=str, default="mobilenet", help="Name of model file.")
     parser.add_argument("--labelfile_name", dest="labelfile_name",type=str, default="mobilenet.txt", help="Name of label file.")
     parser.add_argument("--image_name",dest="image_name", type=str, default="parrot.jpg", help="Name of image file.")
 
