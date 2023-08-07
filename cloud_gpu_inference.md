@@ -353,6 +353,8 @@ Image('image_model/parrot.jpg')
 ```
 :::
 
+If you skipped uploading your own model, you can leave all the arguments empty. And if you uploaded the models then enter the model name, label file name, and the image on which you are going to make a prediction. By default the image displayed above will be used to make predictions.
+
 ::: {.cell .code}
 ```python
 node.run('python /home/cc/image_model/model.py --model_name keras_model.h5 --labelfile_name labels.txt --image_name parrot.jpg')
@@ -368,7 +370,7 @@ Make a note of the time it took to generate the prediction - would this inferenc
 ::: {.cell .markdown}
 ## Use a pre-trained image classification model to do inference with optimizations
 
-Now we willl repeat the image classification above, but with a version of the model that is compiled with TensorRT, for extra optimizations on NVIDIA GPUs.
+Now we will repeat the image classification above, but with a version of the model that is compiled with TensorRT, for extra optimizations on NVIDIA GPUs.
 
 :::
 
@@ -380,6 +382,7 @@ First, we'll convert the same model to a TensorRT equivalent - this will take a 
 
 ::: {.cell .code}
 ```python
+# leave arguments empty if you skipped uploading models.
 node.run('python /home/cc/image_model/model-convert.py --model_name keras_model.h5')
 ```
 :::
@@ -391,6 +394,7 @@ Then, we can run the optimized version of the model -
 
 ::: {.cell .code}
 ```python
+# Leave arguments empty if you skipped uploading models.
 node.run('python /home/cc/image_model/model-opt.py --model_name keras_model.h5 --labelfile_name labels.txt --image_name parrot.jpg')
 ```
 :::
