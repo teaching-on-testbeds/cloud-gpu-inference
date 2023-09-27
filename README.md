@@ -1,5 +1,12 @@
 # Using cloud servers for GPU-based inference
 
+Machine learning models are most often trained in the “cloud”, on powerful centralized servers with specialized resources (like GPU acceleration) for training machine learning models. These servers are also well-resources for inference, i.e. making predictions on new data.
+
+In this experiment, we will use a cloud server equipped with GPU acceleration for fast inference in an image classification context.
+
+
+
+
 To run this experiment on Chameleon, open a terminal inside the Chameleon Jupyter environment and run
 
 ```
