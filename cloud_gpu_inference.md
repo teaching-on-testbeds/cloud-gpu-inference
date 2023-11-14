@@ -20,6 +20,7 @@ This notebook assumes you already have a "lease" available for an RTX6000 GPU se
 * attach an IP address to the server, so that you can access it over SSH
 * install some fundamental machine learning libraries on the server
 * use a pre-trained image classification model to do inference on the server
+* optimize the model for inference on NVIDIA GPUs, and measure reduced inference times
 * delete the server
 
 :::
